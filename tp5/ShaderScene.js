@@ -71,11 +71,11 @@ export class ShaderScene extends CGFscene {
 		this.appearance.setSpecular(0.0, 0.0, 0.0, 1);
 		this.appearance.setShininess(120);
 
-		this.texture = new CGFtexture(this, "textures/waterMap.jpg");
+		this.texture = new CGFtexture(this, "textures/waterTex.jpg");
 		this.appearance.setTexture(this.texture);
 		this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
-		this.texture2 = new CGFtexture(this, "textures/waterTex.jpg");
+		this.texture2 = new CGFtexture(this, "textures/waterMap.jpg");
 
 		// shaders initialization
 
@@ -99,6 +99,8 @@ export class ShaderScene extends CGFscene {
 		this.testShaders[5].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[6].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[6].setUniformsValues({ timeFactor: 0 });
+		this.testShaders[11].setUniformsValues({ uSampler2: 1 });
+		this.testShaders[11].setUniformsValues({ timeFactor: 0 });
 
 
 		// Shaders interface variables
@@ -202,6 +204,7 @@ export class ShaderScene extends CGFscene {
 			// ( so the loop period of timeFactor is 100 times 100 ms = 10s ; the actual animation loop depends on how timeFactor is used in the shader )
 			this.testShaders[6].setUniformsValues({ timeFactor: t / 100 % 100 });
 			this.testShaders[9].setUniformsValues({ timeFactor: t / 100 % 100 });
+			this.testShaders[11].setUniformsValues({ timeFactor: t / 100 % 100 });
 	}
 
 	// main display function
@@ -233,6 +236,8 @@ export class ShaderScene extends CGFscene {
 
 		// bind additional texture to texture unit 1
 		this.texture2.bind(1);
+		this.gl.texParameterf(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.REPEAT);
+        this.gl.texParameterf(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.REPEAT);
 
 		if (this.selectedObject==0) {
 			// teapot (scaled and rotated to conform to our axis)
